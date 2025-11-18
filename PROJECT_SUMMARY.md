@@ -10,7 +10,7 @@
 - ✅ 多格式文件上传 (PDF, DOCX, PPTX, TXT)
 - ✅ 智能文本提取
 - ✅ OCR 扫描件识别 (Tesseract + Google Vision)
-- ✅ AI 闪卡生成 (OpenAI GPT)
+- ✅ AI 闪卡生成 (火山引擎 API)
 - ✅ 异步任务处理 (Celery + Redis)
 - ✅ 实时状态轮询
 - ✅ 响应式用户界面
@@ -23,7 +23,7 @@
 - Redis 消息代理和结果存储
 - 多种文档处理库 (pypdfium2, python-docx, python-pptx)
 - OCR 集成 (Tesseract, Google Cloud Vision)
-- OpenAI API 集成
+- OpenAI SDK (用于兼容火山引擎 API)
 
 **前端** (697 行代码)
 - Vue.js 3 Composition API
@@ -133,7 +133,7 @@ Celery Worker 获取任务
     ↓
 提取文本内容 (支持 OCR)
     ↓
-调用 OpenAI API 生成闪卡
+调用火山引擎 API 生成闪卡
     ↓
 存储结果到 Redis
     ↓
@@ -154,7 +154,7 @@ Celery Worker 获取任务
 
 | 变量名 | 必需 | 用途 |
 |--------|------|------|
-| `OPENAI_API_KEY` | ✅ | OpenAI API 密钥 |
+| `ARK_API_KEY` | ✅ | 火山引擎 API 密钥 |
 | `GOOGLE_APPLICATION_CREDENTIALS` | ❌ | Google Vision OCR |
 | `CELERY_BROKER_URL` | ❌ | Redis 地址 |
 | `CELERY_RESULT_BACKEND` | ❌ | Redis 地址 |
@@ -248,7 +248,7 @@ Celery Worker 获取任务
    - 支持中英文
 
 2. **AI 闪卡生成**
-   - 使用 GPT-3.5-turbo
+   - 使用火山引擎 doubao-seed-1-6-flash 模型
    - 智能提取知识点
    - 生成问答对
 

@@ -6,7 +6,7 @@
 
 - **📁 多格式支持**: 支持 PDF、DOCX、PPTX、TXT 文件上传
 - **🔍 智能文本提取**: 自动识别文档类型，支持 OCR 识别扫描件
-- **🤖 AI 闪卡生成**: 使用大语言模型将文本转化为问答式闪卡
+- **🤖 AI 闪卡生成**: 使用火山引擎大语言模型将文本转化为问答式闪卡
 - **⚡ 异步处理**: 后台任务处理，实时状态更新
 - **🎨 现代化界面**: 基于 Vue 3 的响应式用户界面
 
@@ -14,7 +14,7 @@
 
 - **前端**: Vue.js 3 + Vite + Axios
 - **后端**: Flask + Celery + Redis
-- **AI**: OpenAI GPT API
+- **AI**: 火山引擎 API (兼容 OpenAI 协议)
 - **文档处理**: pypdfium2, python-docx, python-pptx
 - **OCR**: Tesseract / Google Cloud Vision (可选)
 - **部署**: Docker + Docker Compose + Nginx
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 # 配置环境变量
 cp .env.example .env
-# 编辑 .env 文件，填入你的 OPENAI_API_KEY
+# 编辑 .env 文件，填入你的 ARK_API_KEY
 ```
 
 ### 3. 启动 Redis
@@ -173,7 +173,7 @@ docker-compose up -d --build
 
 | 变量名 | 必须 | 说明 |
 |--------|------|------|
-| `OPENAI_API_KEY` | ✅ | OpenAI API 密钥 |
+| `ARK_API_KEY` | ✅ | 火山引擎 API 密钥 |
 | `GOOGLE_APPLICATION_CREDENTIALS` | ❌ | Google Cloud Vision 密钥文件路径 |
 | `CELERY_BROKER_URL` | ❌ | Redis 地址 (默认: redis://localhost:6379/0) |
 | `CELERY_RESULT_BACKEND` | ❌ | Redis 地址 (默认: redis://localhost:6379/0) |
@@ -232,4 +232,4 @@ bhc6
 
 ---
 
-**注意**: 使用前请确保已配置有效的 OpenAI API Key。
+**注意**: 使用前请确保已配置有效的火山引擎 API Key。获取方式请参考[火山引擎文档](https://www.volcengine.com/docs/82379/1330626)。
