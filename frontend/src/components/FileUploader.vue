@@ -10,7 +10,16 @@
           style="display: none"
         />
         
-        <div v-if="!uploading" class="upload-content" @click="triggerFileSelect">
+        <div v-if="uploadSuccess" class="success-content">
+          <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <p class="success-text">文件上传成功!</p>
+          <p class="success-hint">正在处理您的文件，请查看下方任务状态</p>
+        </div>
+
+        <div v-else-if="!uploading" class="upload-content" @click="triggerFileSelect">
           <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="17 8 12 3 7 8"></polyline>
@@ -43,6 +52,7 @@ export default {
   setup(props, { emit }) {
     const fileInput = ref(null)
     const uploading = ref(false)
+    const uploadSuccess = ref(false)
     const error = ref(null)
 
     const triggerFileSelect = () => {
@@ -65,6 +75,7 @@ export default {
 
     const uploadFile = async (file) => {
       error.value = null
+      uploadSuccess.value = false
       uploading.value = true
       emit('upload-start')
 
@@ -78,13 +89,16 @@ export default {
           }
         })
 
+        uploading.value = false
+        uploadSuccess.value = true
         emit('upload-success', response.data)
       } catch (err) {
         const errorMessage = err.response?.data?.error || '上传失败，请重试'
         error.value = errorMessage
+        uploadSuccess.value = false
         emit('upload-error', errorMessage)
-      } finally {
         uploading.value = false
+      } finally {
         // 重置文件输入
         if (fileInput.value) {
           fileInput.value.value = ''
@@ -95,6 +109,7 @@ export default {
     return {
       fileInput,
       uploading,
+      uploadSuccess,
       error,
       triggerFileSelect,
       handleFileSelect,
@@ -163,6 +178,32 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+}
+
+.success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  color: #48bb78;
+  margin-bottom: 0.5rem;
+}
+
+.success-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.success-hint {
+  font-size: 0.9rem;
+  color: #718096;
+  text-align: center;
 }
 
 .spinner {
