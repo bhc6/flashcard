@@ -9,6 +9,7 @@ from celery import Celery
 from dotenv import load_dotenv
 import uuid
 from werkzeug.utils import secure_filename
+from services import TextExtractor, LLMService
 
 # 加载环境变量
 load_dotenv()
@@ -58,8 +59,6 @@ def process_file_task(self, file_path, file_extension):
     Returns:
         生成的闪卡列表
     """
-    from services import TextExtractor, LLMService
-    
     try:
         # 更新任务状态：正在提取文本
         self.update_state(state='PROGRESS', meta={'status': '正在提取文本内容...'})
