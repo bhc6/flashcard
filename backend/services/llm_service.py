@@ -1,6 +1,8 @@
 """
 LLM 服务
-使用 OpenAI API 生成闪卡
+使用火山引擎 API 生成闪卡
+火山方舟模型调用 API 与 OpenAI API 协议兼容
+详细说明：https://www.volcengine.com/docs/82379/1330626
 """
 import os
 import json
@@ -13,12 +15,16 @@ class LLMService:
     
     def __init__(self):
         """初始化 LLM 服务"""
-        api_key = os.getenv('OPENAI_API_KEY')
+        api_key = os.getenv('ARK_API_KEY')
         if not api_key:
-            raise ValueError("未设置 OPENAI_API_KEY 环境变量")
+            raise ValueError("未设置 ARK_API_KEY 环境变量")
         
-        self.client = OpenAI(api_key=api_key)
-        self.model = "gpt-3.5-turbo"
+        # 火山方舟 API 配置
+        self.client = OpenAI(
+            base_url="https://ark.cn-beijing.volces.com/api/v3",
+            api_key=api_key
+        )
+        self.model = "doubao-seed-1-6-flash-250828"
     
     def generate_flashcards(self, text_content: str, max_cards: int = 10) -> List[Dict[str, str]]:
         """
@@ -94,7 +100,7 @@ class LLMService:
             return flashcards
         
         except Exception as e:
-            raise Exception(f"调用 OpenAI API 失败: {str(e)}")
+            raise Exception(f"调用火山引擎 API 失败: {str(e)}")
     
     def _parse_flashcards(self, content: str) -> List[Dict[str, str]]:
         """

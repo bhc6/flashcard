@@ -28,7 +28,7 @@ cd flashcard
 ```bash
 cd backend
 cp .env.example .env
-nano .env  # 编辑并设置 OPENAI_API_KEY
+nano .env  # 编辑并设置 ARK_API_KEY
 cd ..
 ```
 
@@ -107,7 +107,7 @@ pip install gunicorn
 
 ```bash
 cp .env.example .env
-nano .env  # 设置 OPENAI_API_KEY
+nano .env  # 设置 ARK_API_KEY
 ```
 
 4. **使用 systemd 管理服务**
@@ -273,7 +273,7 @@ sudo netstat -tulpn | grep :6379
 ### 问题：任务处理失败
 
 1. 检查 Redis 连接
-2. 验证 OPENAI_API_KEY
+2. 验证 ARK_API_KEY
 3. 查看 Celery Worker 日志
 
 ### 问题：上传文件失败

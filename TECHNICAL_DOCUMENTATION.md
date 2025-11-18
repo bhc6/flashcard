@@ -65,7 +65,7 @@
     - 获取并执行任务，包括文本提取 (OCR) 和调用 LLM API。
     - 将任务的执行状态和结果写回 Redis。
 - **外部服务**:
-    - **LLM API (如 OpenAI)**: 接收文本内容，生成闪卡 JSON 数据。
+    - **LLM API (火山引擎)**: 接收文本内容，生成闪卡 JSON 数据。兼容 OpenAI API 协议。
     - **OCR 服务 (如 Tesseract, Google Vision)**: 从图像或扫描件中识别文本。
 
 ## 3. 技术栈
@@ -83,7 +83,7 @@
 | **数据处理** | `pypdfium2`, `python-docx`, `python-pptx` | 分别用于处理 PDF, .docx, .pptx 文件                |
 |            | `pytesseract` + Tesseract              | 默认的开源 OCR 解决方案                            |
 |            | `google-cloud-vision` (可选)           | 更精准的商业 OCR 方案                              |
-|            | `openai`                               | OpenAI GPT 系列模型的官方 Python 客户端            |
+|            | `openai`                               | OpenAI SDK，用于兼容火山引擎 API 协议              |
 | **部署**   | Docker & Docker Compose                | 容器化技术，用于打包、分发和运行应用               |
 |            | Nginx (生产环境)                       | 高性能反向代理、负载均衡和静态文件服务             |
 
@@ -177,7 +177,7 @@
 
 | 变量名                       | 是否必须 | 描述                                                              | 示例值                                            |
 | :--------------------------- | :------- | :---------------------------------------------------------------- | :------------------------------------------------ |
-| `OPENAI_API_KEY`             | **是**   | 用于调用 OpenAI 服务的 API 密钥。                                 | `sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`     |
+| `ARK_API_KEY`                | **是**   | 用于调用火山引擎服务的 API 密钥。详见：https://www.volcengine.com/docs/82379/1330626 | `your-ark-api-key-here`                          |
 | `GOOGLE_APPLICATION_CREDENTIALS` | 否       | 指向 Google Cloud 服务账号 JSON 密钥文件的**绝对路径**，用于启用 Google Vision OCR。 | `/home/bhc6/gcp-keys/my-project-key.json` |
 | `CELERY_BROKER_URL`            | 否       | Celery 消息代理地址。默认为 `redis://localhost:6379/0`。           | `redis://user:password@remote-host:6379/0`      |
 | `CELERY_RESULT_BACKEND`        | 否       | Celery 结果后端地址。默认为 `redis://localhost:6379/0`。          | `redis://user:password@remote-host:6379/0`      |
