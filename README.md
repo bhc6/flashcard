@@ -22,16 +22,16 @@
 ### 1. 克隆项目
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/bhc6/flashcard.git
 cd Anki_FlashCard_Generator
 ```
 
 ### 2. 配置环境变量
 
-创建 `.env` 文件并添加 API 密钥（可选，用于 AI 功能）：
+创建 `.env` 文件并添加火山引擎 API 密钥（可选，用于 AI 功能）：
 
 ```bash
-ARK_API_KEY=your_api_key_here
+cp .env.example .env
 ```
 
 ### 3. 安装后端依赖
